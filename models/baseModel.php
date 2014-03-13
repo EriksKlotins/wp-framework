@@ -9,35 +9,51 @@ class BaseModel implements \Framework\ModelInterface
 	protected $post_type_name = 'not yet set!';
 	private $attributes = array();
  
-
-	public function getLinkedMedia($shortcode, $width = false, $height=false)
+	public function __construct($name,  $attributes = array(), $definition = array())
 	{
-		//$shortcode = '[gallery ids=""]';
-		preg_match_all("/[0-9]+/", $shortcode, $result);
-		if (count($result)==0)
-		{
-			return array();
-		}
-		$result = $result[0];
-		foreach ($result as &$item) 
-		{
-
-			$url = 	wp_get_attachment_image_src($item, 'full');
-			$url = $url[0];
-			if ($width && $height)
-			{
-				$item =  wpUtils::resizeImage($url, $width, $height);
-			}
-			else
-			{
-				$item = $url;
-			}
-
-		}
-	//	var_dump($shortcode, $result);
-		return $result;
-		
+		$this->post_type_name = $name;
+		$this->attributes = $attributes;
+		$this->definition = $definition;
+		add_action('init', [&$this, 'onInitAction']);
 	}
+
+	/**
+	 * Tiek izsaukts ar do_action('init'...)
+	 */ 
+	public function onInitAction()
+	{
+
+	}
+
+
+	// public function getLinkedMedia($shortcode, $width = false, $height=false)
+	// {
+	// 	//$shortcode = '[gallery ids=""]';
+	// 	preg_match_all("/[0-9]+/", $shortcode, $result);
+	// 	if (count($result)==0)
+	// 	{
+	// 		return array();
+	// 	}
+	// 	$result = $result[0];
+	// 	foreach ($result as &$item) 
+	// 	{
+
+	// 		$url = 	wp_get_attachment_image_src($item, 'full');
+	// 		$url = $url[0];
+	// 		if ($width && $height)
+	// 		{
+	// 			$item =  wpUtils::resizeImage($url, $width, $height);
+	// 		}
+	// 		else
+	// 		{
+	// 			$item = $url;
+	// 		}
+
+	// 	}
+	// //	var_dump($shortcode, $result);
+	// 	return $result;
+		
+	// }
 
 	public function getLinkedItems($id_arr, $model,  $loadLinkedObjects = false)
 	{
@@ -56,12 +72,7 @@ class BaseModel implements \Framework\ModelInterface
 		}
 		return $result;
 	}
-	public function __construct($name,  $attributes = array(), $definition = array())
-	{
-		$this->post_type_name = $name;
-		$this->attributes = $attributes;
-		$this->definition = $definition;
-	}
+	
 
 	private function content_formatting($content) 
 	{

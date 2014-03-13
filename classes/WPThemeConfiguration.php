@@ -4,10 +4,6 @@
 	This disables 404 when using custom routes instead of wp theme hierarchy
 */
 
-if (!is_admin())
-{
-	$wp_query = new \WP_Query('author__not_in=999999');
-}
 
 class WPThemeConfiguration
 {
@@ -17,6 +13,8 @@ class WPThemeConfiguration
 
 	public function __construct()
 	{
+		
+
 		/* 
 			This disables some kind of strange wp behaviour 
 			when wp attempts to guess which file to load before
@@ -24,6 +22,7 @@ class WPThemeConfiguration
 		*/
 		global $wp_filter;
 		unset($wp_filter['template_redirect'][10]['redirect_canonical']);
+
 		add_action('admin_menu', array(&$this,'removeMenus'));
 		add_action( 'init',  array(&$this,'register_main_menu'));
 		add_action('admin_notices',  array(&$this,'showAdminMessages')); 

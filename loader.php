@@ -1,20 +1,15 @@
 <?php namespace Framework;
 	
 
+	
 
-	
-	// izskatās, ka šis nav vajadzīgs EK 18.10
-	if (!defined('FRAMEWORK_URL')) define('FRAMEWORK_URL', content_url().'/mu-plugins/the-framework/');
-	// FRAMEWORK
- 	
-	
+
 	require dirname(__FILE__).'/classes/wputils.php';
 	require dirname(__FILE__).'/classes/model.php';
 	require dirname(__FILE__).'/classes/WPCustomAdmin.php';
 	require dirname(__FILE__).'/classes/WPCustomMetabox.php';
 	require dirname(__FILE__).'/classes/WPCustomPage.php';
 	require dirname(__FILE__).'/classes/WPThemeConfiguration.php';
-	
 
 	// INTERFACES
 	require dirname(__FILE__).'/interfaces/model.php';
@@ -23,50 +18,43 @@
 	
 
 	// BASE CLASSES
-	
-	//require dirname(__FILE__).'/models/DataType.php';
-//	require dirname(__FILE__).'/models/QueryBuilder.php';
 	require dirname(__FILE__).'/models/baseModel.php';
 	require dirname(__FILE__).'/models/mainMenuModel.php';
-	
-	//require dirname(__FILE__).'/models/baseMySqlModel.php'; // removed
-	
-	
-	//	require dirname(__FILE__).'/models/testModel.php'; // removed
 	require dirname(__FILE__).'/viewmodels/baseViewModel.php';
 	require dirname(__FILE__).'/controllers/baseController.php';
 
-	// Framework generator tools
-	require dirname(__FILE__).'/controllers/MVCGeneratorController.php';
-	require dirname(__FILE__).'/viewmodels/MVCGeneratorViewModel.php';
-
-	
-
-	
 
 	// APP LOADER
+	
+	$appPath = get_stylesheet_directory();
+
+	if (get_stylesheet_directory() == get_template_directory())
+	{
+		$frameworkUrl = content_url().'/mu-plugins/the-framework/';
+	}
+	else
+	{
+		$frameworkUrl = content_url().'/plugins/the-framework/';
+	}
+	
+	if (!defined('FRAMEWORK_URL')) define('FRAMEWORK_URL', $frameworkUrl);
 
 	// helpers
-	wpUtils::requireDirectory(get_template_directory().'/helpers');
+	wpUtils::requireDirectory($appPath.'/helpers');
 
 	// models
-	wpUtils::requireDirectory(get_template_directory().'/models');
+	wpUtils::requireDirectory($appPath.'/models');
 
 	// models
-	wpUtils::requireDirectory(get_template_directory().'/viewmodels');
+	wpUtils::requireDirectory($appPath.'/viewmodels');
 
 	// controllers
-	wpUtils::requireDirectory(get_template_directory().'/controllers', true);
+	wpUtils::requireDirectory($appPath.'/controllers', true);
 
 	// admin stuff
-	wpUtils::requireDirectory(get_template_directory().'/admin', true);
+	wpUtils::requireDirectory($appPath.'/admin', true);
 
 
 
-	// Routes
-	if (!is_admin())
-	{
-		require get_template_directory().'/routes.php';
-	}
 	
 

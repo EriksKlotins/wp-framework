@@ -16,7 +16,8 @@ class WPCustomMetabox extends WpCustomAdmin
 		public function __construct($typeName, $boxTitle, $options = array())
 		{
 			if (!is_admin() ) return; // šo nevajag, ja nav admin panelis
-			if (!isset($_GET['post']) && empty($_POST)) return; //nekas nav..
+
+			//if (!isset($_GET['post']) && empty($_POST) || !isset($_GET['post_type'])) return; //nekas nav..
 			
 
 			if (isset($_GET['post_type']))
@@ -28,7 +29,7 @@ class WPCustomMetabox extends WpCustomAdmin
 				if (empty($_GET))
 				{
 					
-					$id = $_POST['post_ID'];
+					$id = isset($_POST['post_ID']) ? $_POST['post_ID'] : null;
 				}
 				else
 				{
