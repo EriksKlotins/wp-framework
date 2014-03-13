@@ -1,0 +1,64 @@
+<?php
+	/*
+		This class will add custom metabox to the WP admin panel
+	*/
+	class {{internal-name}}Admin extends WPCustomMetabox
+	{
+		{{#has-comments}}
+		/*
+			In an extreme case you can include custom JS and CSS files to the admin panel
+			If you choose to do so, add code to the metabox constructor
+		*/
+		{{/has-comments}}
+		public function __construct($typeName, $boxTitle, $options = array())
+		{
+			parent::__construct($typeName, $boxTitle, $options);
+		}
+		{{#has-comments}}
+		/*
+			This method will populate the metabox
+			Typically here you have a code for input fields etc. Generate standart fields 
+			by using methods from WPCustomMetabox class
+
+			$object - is the post being edited
+			$box - reference to wp metabox (mostly useless) 
+		*/
+		{{/has-comments}}
+		public function OnLoadContent($object, $box) 
+		{ 
+
+			{{#customFields}}
+			echo $this->{{control}}('{{internal-name}}-{{name}}','{{caption}}',{{#source}}Model::{{source}}()->getItemsForSelect(),{{/source}} $object);
+			{{/customFields}}
+
+		}
+		{{#has-comments}}
+		/*
+			This method populates each cell for each row/column of the posts list
+			Use this to add your content to the list
+
+			$column - column ID
+			$post_id - row id (current post_id)
+		*/
+		{{/has-comments}}
+		public function OnLoadColumn($column, $post_id) 
+		{
+		}
+		{{#has-comments}}
+		/*
+			This method allows to add or remove columns from list of posts
+			$columns - is the default list in form of array("id"=>"caption")
+		*/
+		{{/has-comments}}
+		public function OnLoadColumns($columns) 
+		{ 
+			return $columns;
+		}
+	}
+	{{#has-comments}}
+	/*
+		This line will initialize the metabox for post type = {{internal-name}} with title {{Name}}
+		user_field_prefix - allows to distinguish between default fields and custom fields. Do not touch it!
+	*/	
+	{{/has-comments}}
+	$a = new {{Internal-name}}Admin('{{internal-name}}', '{{Name}}', array('user_field_prefix'=>'{{internal-name}}'));

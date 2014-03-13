@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+%html
+  %head
+    %title= $bloginfo_title
+    %meta{ :content => '', :name => 'viewport'}
+    %link{ :href=> $template_directory_uri.'/css/bootstrap.min.css', :rel => 'stylesheet', :type => 'text/css'}
+    - wp_head();
+  %body
+    %div.container
+      %div.navbar
+        %div{:class=>"navbar-inner"}
+          %ul.nav
+            %a.brand {:href=> $bloginfo_home} Sākums
+            - foreach($mainMenu as $menu)
+              %li{:class=> @($menu['is-current']?'active':'') }
+                %a{:href=> $menu['url']}= $menu['title']
+        %article
+          %h1= $post_title
+          {{#has-image}}
+          %img {:src=> $thumbnail}
+          {{/has-image}}
+          - echo $post_content
+        {{#customFields}}
+          %h2 {{caption}}
+          {{#array}}
+          %ul
+          - foreach(${'{{name}}'} as $tmp)
+            %li=> $tmp['post_title']
+          {{/array}}
+          {{#singular}}
+          - echo ${'{{internal-name}}-{{name}}'}
+          {{/singular}}
+        {{/customFields}}
+      %footer
+        %p{:class=>'pull-right'} This is footer
+  %script{ :src => "http://code.jquery.com/jquery.js"}
+  %script{ :src => $template_directory_uri.'/js/bootstrap.min.js'}
+  -  wp_footer();        

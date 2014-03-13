@@ -1,0 +1,202 @@
+!!  header
+      %div.jumbotron
+        %h1 The Framework tool
+        %p Model, View and Controller constructor
+      %form {:class=>"form-horizontal", :method=>"post"}
+        %legend Naming
+        %div{:class=>"form-group"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"} User friendly name
+          %div{:class=>"col-lg-10"}
+            %input{:type=>"text", class=>"form-control", :name=>"name", :placeholder=>"singular"}
+            %input{:type=>"text", class=>"form-control", :name=>"name-plural", :placeholder=>"plural"}
+            %p{:class=>"help-block"}  This will be displayed in CMS (if model is created)
+        %div{:class=>"form-group"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"} Internal name
+          %div{:class=>"col-lg-10"}
+            %input{:type=>"text", class=>"form-control", :name=>"internal-name"}
+            %p{:class=>"help-block"}  This name will be used to generate class names
+            %div{:class=>"checkbox"}
+        %legend  Autocreate what?
+        %div{:class=>"form-group"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"}  Model
+            %input{:type=>"checkbox", :name=>'create-model', :checked=>"checked"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"}  Controller
+            %input{:type=>"checkbox", :name=>'create-controller', :checked=>"checked"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"}  View
+            %input{:type=>"checkbox", :name=>'create-view', :checked=>"checked"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"}  CMS Metabox
+            %input{:type=>"checkbox", :name=>'create-metabox', :checked=>"checked"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"}  Viewmodel
+            %input{:type=>"checkbox", :name=>'create-viewmodel', :checked=>"checked"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"}  Update routes
+            %input{:type=>"checkbox", :name=>'create-routes', :checked=>"checked"}      
+        %legend Supported features
+        %div{:class=>"form-group"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"} Title
+            %input{:type=>"checkbox", :name=>'has-title', :checked=>"checked"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"} Editor
+            %input{:type=>"checkbox", :name=>'has-editor', :checked=>"checked"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"} Excerpt
+            %input{:type=>"checkbox", :name=>'has-excerpt'}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"} Featured image
+            %input{:type=>"checkbox", :name=>'has-image'}
+        %legend Custom fields
+        %table{:class=>"table table-condensed"}
+          %thead
+            %tr
+              %th  #
+              %th  Caption
+              %th  Internal name
+              %th  Control type
+              %th  Data type
+              %th  Data source
+          %tbody
+          - for($i=1;$i<8;$i++)
+            %tr
+              %td= $i
+              %td
+                %input{:class=> "form-control", :name=>"customfield-caption-".$i, :type=>"text"}
+              %td
+                %input{:class=> "form-control", :name=>"customfield-name-".$i, :type=>"text"}
+              %td
+                %select{:class=> "form-control control-type", :nr=>$i, :name=>"customfield-control-".$i}
+                  %option{:value=>"TextField"} Text input
+                  %option{:value=>"Textarea"} Textarea
+                  %option{:value=>"Datepicker"} Datepicker
+                  %option{:value=>"Select"} Select
+                  %option{:value=>"Multiselect"} Multiselect
+              %td
+                %select{:class=> "form-control control-type", :nr=>$i, :name=>"customfield-kind-".$i}
+                  %optgroup{:label=> "Faker\Provider\en_US\Person"}
+                    %option{:value=> "prefix"}  prefix                  
+                    %option{:value=> "suffix"}  suffix                  
+                    %option{:value=> "name"}  name                    
+                    %option{:value=> "firstName"} firstName               
+                    %option{:value=> "lastName"}  lastName   
+                  %optgroup{:label=> "Faker\Provider\en_US\Address"}             
+                    %option{:value=> "cityPrefix"}  cityPrefix              
+                    %option{:value=> "secondaryAddress"}  secondaryAddress        
+                    %option{:value=> "state"} state                   
+                    %option{:value=> "stateAbbr"} stateAbbr               
+                    %option{:value=> "citySuffix"}  citySuffix              
+                    %option{:value=> "streetSuffix"}  streetSuffix            
+                    %option{:value=> "buildingNumber"}  buildingNumber          
+                    %option{:value=> "city"}  city                    
+                    %option{:value=> "streetName"}  streetName              
+                    %option{:value=> "streetAddress"} streetAddress           
+                    %option{:value=> "postcode"}  postcode                
+                    %option{:value=> "address"} address                 
+                    %option{:value=> "country"} country                 
+                    %option{:value=> "latitude"}  latitude                
+                    %option{:value=> "longitude"} longitude  
+                  %optgroup{:label=> "Faker\Provider\en_US\PhoneNumber"}               
+                    %option{:value=> "phoneNumber"} phoneNumber             
+                    %option{:value=> "catchPhrase"} catchPhrase             
+                    %option{:value=> "bs"}  bs   
+                  %optgroup{:label=> "Faker\Provider\en_US\Company"}                   
+                    %option{:value=> "company"} company                 
+                    %option{:value=> "companySuffix"} companySuffix 
+                  %optgroup{:label=> "Faker\Provider\en_US\Lorem"}             
+                    %option{:value=> "word"}  word                    
+                    %option{:value=> "words"} words($nb = 3)          
+                    %option{:value=> "sentence"}  sentence($nbWords = 6)  
+                    %option{:value=> "sentences"} sentences($nb = 3)      
+                    %option{:value=> "paragraph"} paragraph($nbSentences = 3) 
+                    %option{:value=> "paragraphs"}  paragraphs($nb = 3)     
+                    %option{:value=> "text"}  text($maxNbChars = 200) 
+                  %optgroup{:label=> "Faker\Provider\en_US\Internet"} 
+                    %option{:value=> "email"} email                   
+                    %option{:value=> "safeEmail"} safeEmail               
+                    %option{:value=> "freeEmail"} freeEmail               
+                    %option{:value=> "companyEmail"}  companyEmail            
+                    %option{:value=> "freeEmailDomain"} freeEmailDomain         
+                    %option{:value=> "safeEmailDomain"} safeEmailDomain         
+                    %option{:value=> "userName"}  userName                
+                    %option{:value=> "domainName"}  domainName              
+                    %option{:value=> "domainWord"}  domainWord              
+                    %option{:value=> "tld"} tld                     
+                    %option{:value=> "url"} url                     
+                    %option{:value=> "ipv4"}  ipv4                    
+                    %option{:value=> "ipv6"}  ipv6   
+                  %optgroup{:label=> "Faker\Provider\en_US\DateTime"}                  
+                    %option{:value=> "unixTime"}  unixTime                
+                    %option{:value=> "dateTime"}  dateTime                
+                    %option{:value=> "dateTimeAD"}  dateTimeAD              
+                    %option{:value=> "iso8601"} iso8601                 
+                    %option{:value=> "date"}  date($format = 'Y-m-d') 
+                    %option{:value=> "time"}  time($format = 'H:i:s') 
+                    %option{:value=> "dateTimeBetween"} dateTimeBetween($startDate = '-30 years', $endDate = 'now') 
+                    %option{:value=> "dateTimeThisCentury"} dateTimeThisCentury     
+                    %option{:value=> "dateTimeThisDecade"}  dateTimeThisDecade      
+                    %option{:value=> "dateTimeThisYear"}  dateTimeThisYear        
+                    %option{:value=> "dateTimeThisMonth"} dateTimeThisMonth       
+                    %option{:value=> "amPm"}  amPm                    
+                    %option{:value=> "dayOfMonth"}  dayOfMonth              
+                    %option{:value=> "dayOfWeek"} dayOfWeek               
+                    %option{:value=> "month"} month                   
+                    %option{:value=> "monthName"} monthName               
+                    %option{:value=> "year"}  year                    
+                    %option{:value=> "century"} century                 
+                    %option{:value=> "timezone"}  timezone 
+                  %optgroup{:label=> "Faker\Provider\en_US\Miscellaneous"}                
+                    %option{:value=> "boolean"} boolean($chanceOfGettingTrue = 50) 
+                    %option{:value=> "md5"} md5                     
+                    %option{:value=> "sha1"}  sha1                    
+                    %option{:value=> "sha256"}  sha256                  
+                    %option{:value=> "locale"}  locale                  
+                    %option{:value=> "countryCode"} countryCode             
+                    %option{:value=> "languageCode"}  languageCode
+                    %option{:value=> "uuid"}  uuid                   
+                    %option{:value=> "fileExtension"} fileExtension          
+                    %option{:value=> "mimeType"}  mimeType               
+                    %option{:value=> "hexcolor"}  hexcolor               
+                    %option{:value=> "rgbcolor"}  rgbcolor               
+                    %option{:value=> "rgbColorAsArray"} rgbColorAsArray        
+                    %option{:value=> "rgbCssColor"} rgbCssColor            
+                    %option{:value=> "safeColorName"} safeColorName          
+                    %option{:value=> "colorName"} colorName    
+                  %optgroup{:label=> "Faker\Provider\en_US\Base"}           
+                    %option{:value=> "randomDigit"} randomDigit             
+                    %option{:value=> "randomDigitNotNull"}  randomDigitNotNull      
+                    %option{:value=> "randomNumber"}  randomNumber($nbDigits = NULL) 
+                    %option{:value=> "randomNumber"}  randomNumber($from, $to) 
+                    %option{:value=> "randomFloat"} randomFloat 
+                    %option{:value=> "randomLetter"}  randomLetter            
+                    %option{:value=> "numerify"}  numerify($string = '###') 
+                    %option{:value=> "lexify"}  lexify($string = '????') 
+                    %option{:value=> "bothify"} bothify($string = '## ??')
+                  %optgroup{:label=> "Faker\Provider\en_US\UserAgent"}  
+                    %option{:value=> "userAgent"} userAgent              
+                    %option{:value=> "chrome"}  chrome                 
+                    %option{:value=> "firefox"} firefox                
+                    %option{:value=> "safari"}  safari                 
+                    %option{:value=> "opera"} opera                  
+                    %option{:value=> "internetExplorer"}  internetExplorer       
+              %td 
+                %select{:class=> "form-control hidden", :name=>"customfield-source-".$i}
+                  - foreach($models as $m)
+                    %option=> $m
+        %legend Create list?
+        %div{:class=>"form-group"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"}  Controller
+            %input{:type=>"checkbox", :name=>'create-listcontroller', :checked=>"checked"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"}  View
+            %input{:type=>"checkbox", :name=>'create-listview', :checked=>"checked"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"}  Viewmodel
+            %input{:type=>"checkbox", :name=>'create-listviewmodel', :checked=>"checked"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"}  Update routes
+            %input{:type=>"checkbox", :name=>'create-listroutes', :checked=>"checked"}
+
+          
+        %legend Ready?
+        %div{:class=>"form-group"}
+          %label{:for=>"v", :class=>"col-lg-2 control-label"} Code comments
+            %input{:type=>"checkbox", :name=>'has-comments', :checked=>"checked"}
+          %button{:type=>"submit", :class=>"pull-right btn btn-default btn-large"} Let the magic happen!
+        
+
+
+     
+
+
+!! footer?2

@@ -1,0 +1,103 @@
+<?php
+
+/*
+	This sets up the model for custom post type - {{internal-name}}
+*/
+class {{Internal-name}}Model extends BaseModel
+{
+	public function __construct($name, $attributes, $definition)
+	{
+		parent::__construct($name, $attributes, $definition);
+		
+		{{#has-comments}}
+		/*
+			This section sets up WP Custom post type
+			More info: http://codex.wordpress.org/Function_Reference/register_post_type
+
+			If you do not want to store your data in WP DB then remove this section and 
+			write custom code
+		*/
+		{{/has-comments}}
+		register_post_type( $name, array(
+			'labels' =>  array(
+				'name' => '{{Name-plural}}',
+				'singular_name' => '{{Name}}',
+				//'add_new' => __('your str here'),
+				//'add_new_item'=> __('your str here')
+				),
+			'show_in_menu' => true,
+			'menu_position' => 5,	// must be unique
+			'hierarchical' => false,
+			'public' => true,
+			'has_archive' => true,
+			'query_var' =>'{{internal-name}}',
+			'supports' => array('{{#has-title}}title{{/has-title}}','{{#has-editor}}editor{{/has-editor}}','{{#has-excerpt}}excerpt{{/has-excerpt}}','{{#has-image}}thumbnail{{/has-image}}')
+			)
+		);
+	}
+
+	{{#has-comments}}
+	/*
+		This method will be called on every item red from the db
+		You can add or alter all fields here
+
+		see also: public function getItems($params = array(), $loadLinkecObjects = true)
+
+		$itemID - ID or slug of the item
+		$loadLinkecObjects - specifies whether to load references to other objects. 
+	*/
+	{{/has-comments}}
+	public function getItem($itemID, $loadLinkecObjects = true)
+	{
+		$item = parent::getItem($itemID);
+		{{#has-image}}
+		$item['thumbnail-small'] = \Framework\wpUtils::resizeImage($item['featured-image'], 100,100);
+		$item['thumbnail'] = \Framework\wpUtils::resizeImage($item['featured-image'], 300,200);
+		{{/has-image}}
+		{{#has-editor}}
+		$item['post_content_short'] = mb_substr($item['post_content'], 0, 200);
+		{{/has-editor}}
+		if ($item && $loadLinkecObjects)
+		{
+			// anything heavy
+			{{#customFields}}
+			{{#source}}
+			$item['{{name}}'] = $this->getLinkedItems($item['{{internal-name}}-{{name}}'],Model::{{source}}(),false);
+			{{/source}}
+			{{/customFields}}
+		}
+		return $item;
+	}
+
+}
+
+Model::register('{{Internal-name}}', new {{Internal-name}}Model('{{internal-name}}',array(
+// default values
+{{#customFields}}
+	'{{internal-name}}-{{name}}' => '',
+{{/customFields}}
+),
+// definition
+array(
+	'internal-name' => '{{internal-name}}',
+	'name'			=> '{{name}}',
+	'name-plural'   => '{{name-plural}}',
+	'supports'      => array('{{#has-title}}title{{/has-title}}','{{#has-editor}}editor{{/has-editor}}','{{#has-excerpt}}excerpt{{/has-excerpt}}','{{#has-image}}thumbnail{{/has-image}}'),
+	'custom-fields' => array(
+		{{#customFields}}
+			array(
+				'caption' 	=> '{{caption}}',
+				'name'		=> '{{name}}',
+				'control'	=> '{{control}}',
+				{{#source}}
+				'source'	=> '{{source}}',	
+				{{/source}}
+				'kind'		=> '{{kind}}',
+				'singular'	=> {{#singular}}true{{/singular}}{{#array}}false{{/array}}
+				),
+		{{/customFields}}
+
+
+		)
+	)
+));

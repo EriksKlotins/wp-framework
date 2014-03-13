@@ -1,0 +1,12 @@
+<?php
+{{#has-comments}}
+/*
+	In most cases, Viewmodel will stay empty
+	However, if you want some variables to be shared among all views extend the BaseViewModel
+*/
+{{/has-comments}}
+class {{Internal-name}}ViewModel extends BaseViewModel
+{
+
+	
+}

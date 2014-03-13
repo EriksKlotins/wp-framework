@@ -1,0 +1,15 @@
+!!  header
+      %div.jumbotron
+        %h1 The Framework tool
+        %p Model, View and Controller constructor
+      %div{:class=>"alert alert-success"} Success! A basic code structure for 
+        - echo $name 
+        was created!
+      %h2 The following files were created or updated
+      %ul
+      - foreach($log as $l)
+        %li= $l
+      %br
+      %a{:class=>"pull-right btn btn-primary",:href=>$wp_admin_url} Go to wp-admin and start adding content
+      %a{:class=>"pull-left btn btn-success", :href=>$mvc_generator_url } Create another 
+!!  footer?2
