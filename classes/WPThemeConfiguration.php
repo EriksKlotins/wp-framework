@@ -75,6 +75,7 @@ class WPThemeConfiguration
 	 */
 	public function showAdminMessages()
 	{
+
 		foreach ($this->adminMessages as $item)
 		{
 			$this->showMessage($item['message'], $item['error']);

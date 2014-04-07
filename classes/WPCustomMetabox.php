@@ -11,14 +11,14 @@ class WPCustomMetabox extends WpCustomAdmin
 		private $boxTitle = '';
 		protected $options = array();
 		protected $post = null;
+	
 		
-
 		public function __construct($typeName, $boxTitle, $options = array())
 		{
 			if (!is_admin() ) return; // šo nevajag, ja nav admin panelis
 
 			//if (!isset($_GET['post']) && empty($_POST) || !isset($_GET['post_type'])) return; //nekas nav..
-			
+		//	add_action( 'admin_enqueue_scripts', [&$this,'theme_admin_scripts'] );
 
 			if (isset($_GET['post_type']))
 			{
@@ -58,18 +58,29 @@ class WPCustomMetabox extends WpCustomAdmin
 				$this->includeJS(FRAMEWORK_URL.'/lib/select2/select2.js');
 				$this->includeCSS(FRAMEWORK_URL.'/lib/select2/select2.css');
 				$this->includeJS(FRAMEWORK_URL.'/lib/gallery/gallery.js');
+
+		
 				$this->includeJS('http://code.jquery.com/ui/1.10.2/jquery-ui.js');
 				$this->includeCSS('http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css');
 				$this->includeJS(FRAMEWORK_URL.'/lib/timepicker/jquery.timepicker.min.js');
 				$this->includeCSS(FRAMEWORK_URL.'/lib/timepicker/jquery.timepicker.css');
 
+
+
 				$this->InitActions();
 				add_action('admin_footer', array(&$this,'renderJavascripts'));
 				add_action('admin_head', array(&$this,'renderCSS'));
+				add_action( 'admin_enqueue_scripts', [&$this,'theme_admin_scripts'] );
 				$this->OnInitialize();
 			}
 		}
 
+		public function theme_admin_scripts()
+		{
+			wp_enqueue_media();
+			//var_dump(content_url() . '/mu-plugins/the-framework/lib/gallery/media.js');
+			wp_enqueue_script('the-framework-media-js', content_url() . '/mu-plugins/the-framework/lib/gallery/media.js');
+		}
 
 		public function InitActions()
 		{	
